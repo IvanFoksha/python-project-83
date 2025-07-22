@@ -2,7 +2,7 @@ install:
 	uv sync
 
 dev:
-	uv run flask --debug --app page_analyzer:app run
+	uv run --with .venv python3 -m flask --app page_analyzer.app run --debug --host 0.0.0.0 --port 5000
 
 PORT ?=8000
 start:
