@@ -17,8 +17,8 @@ def add_url(url):
         return None, 'Некоректный URL'
     if len(normalized_url) > 255:
         return None, 'URL превышает 255 символов'
-    
-    with get_db_connection as conn:
+
+    with get_db_connection() as conn:
         with conn.cursor() as cur:
             cur.execute(
                 'SELECT id FROM urls WHERE name = %s',
@@ -30,14 +30,37 @@ def add_url(url):
 
             cur.execute(
                 """
-                INSERT INTO urls (name, created_at)
-                VALUES (%s, %s)
-                RETURING id
+                    INSERT INTO urls (name, created_at)
+                    VALUES (%s, %s)
+                    RETURING id
                 """,
                 (normalized_url, datetime.now())
             )
             url_id = cur.fetchone()[0]
             conn.commit()
             return url_id, None
-        
 
+
+def get_url_by_id(url_id):
+    with get_db_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute(
+                """
+                    SELECT id, name, created_at FROM urls
+                    WHERE id = %s
+                """,
+                (url_id,)
+            )
+            return cur.fetchone()
+
+
+def get_all_urls():
+    with get_db_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute(
+                """
+                    SELECT id, name, created_at FROM urls
+                    ORDER BY created_at DESC
+                """
+            )
+            cur.fetchall()
