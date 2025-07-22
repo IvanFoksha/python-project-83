@@ -1,0 +1,20 @@
+[project]
+authors = [
+    {name = "Ivan Foksha", email = "v.foksh6@gmail.com"}
+]
+name = "hexlet-code"
+version = "0.1.0"
+description = "Analyze your or own website on the Internet"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "flask>=3.1.1",
+    "gunicorn>=23.0.0",
+    "python-dotenv>=1.1.1",
+    "ruff>=0.12.4",
+]
+
+[tool.ruff]
+line-length = 88
+select = ["E", "F", "B", "I"]
+ignore = []
