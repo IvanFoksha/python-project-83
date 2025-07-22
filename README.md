@@ -15,7 +15,7 @@
 1. Клонируйте репозиторий:
 
    ```bash
-   git clone <your-repo-url>
+   git clone https://github.com/IvanFoksha/python-project-83
    ```
 
 2. Установите зависимости
