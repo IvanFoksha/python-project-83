@@ -26,3 +26,12 @@ def urls():
 
     urls = get_all_urls()
     return render_template('urls.html', urls=urls)
+
+
+@app.route('/urls/<int:id>')
+def url_detail(id):
+    url = get_url_by_id(id)
+    if not url:
+        flash('URL не найден', 'danger')
+        return redirect(url_for('urls'))
+    return render_template('url_detail.html', url=url)
