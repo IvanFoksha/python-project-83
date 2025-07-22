@@ -1,7 +1,7 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for, flash
 from dotenv import load_dotenv
-from ..database import add_url, get_url_by_id, get_all_urls
+from page_analyzer.database import add_url, get_url_by_id, get_all_urls
 
 load_dotenv()
 app = Flask(__name__)
