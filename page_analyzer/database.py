@@ -32,7 +32,7 @@ def add_url(url):
                 """
                     INSERT INTO urls (name, created_at)
                     VALUES (%s, %s)
-                    RETURING id
+                    RETURNING id
                 """,
                 (normalized_url, datetime.now())
             )
@@ -63,4 +63,4 @@ def get_all_urls():
                     ORDER BY created_at DESC
                 """
             )
-            cur.fetchall()
+            return cur.fetchall()
