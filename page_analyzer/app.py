@@ -1,7 +1,12 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for, flash
 from dotenv import load_dotenv
-from page_analyzer.database import add_url, get_url_by_id, get_all_urls
+from page_analyzer.database import (
+    add_url,
+    get_url_by_id,
+    get_all_urls,
+    add_check
+)
 
 load_dotenv()
 app = Flask(__name__)
@@ -28,10 +33,17 @@ def urls():
     return render_template('urls.html', urls=urls)
 
 
-@app.route('/urls/<int:id>')
+@app.route('/urls/<int:id>', methods=['GET', 'POST'])
 def url_detail(id):
     url = get_url_by_id(id)
     if not url:
         flash('URL не найден', 'danger')
         return redirect(url_for('urls'))
+    if request.method == 'POST':
+        status_code = None
+        h1 = None
+        title = None
+        description = None
+        add_check()
+    
     return render_template('url_detail.html', url=url)
