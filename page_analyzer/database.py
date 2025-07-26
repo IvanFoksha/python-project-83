@@ -41,7 +41,32 @@ def get_url_by_id(url_id):
                 """,
                 (url_id,)
             )
-            return cur.fetchone()
+            result = cur.fetchone()
+            if result:
+                url_id, name, created_at = result
+                cur.execute(
+                    """
+                        SELECT
+                            id, status_code, h1, title, description, created_at
+                        FROM checks WHERE url_id = %s
+                    """,
+                    (url_id,)
+                )
+                checks = [{
+                    'id': row[0],
+                    'status_code': row[1],
+                    'h1': row[2],
+                    'title': row[3],
+                    'description': row[4],
+                    'created_at': row[5]} for row
+                    in cur.fetchall()]
+                return {
+                    'id': url_id,
+                    'name': name,
+                    'created_at': created_at,
+                    'checks': checks
+                }
+            return None
 
 
 def get_all_urls():
