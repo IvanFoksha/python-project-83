@@ -26,7 +26,7 @@ def urls():
         if error:
             flash(error, 'danger')
             return render_template('index.html'), 422
-        flash('Страница успешно добавлена', 'seccess')
+        flash('Страница успешно добавлена', 'success')
         return redirect(url_for('url_detail', id=url_id))
 
     urls = database.get_all_urls()
@@ -41,7 +41,9 @@ def url_detail(id):
         return redirect(url_for('urls'))
     if request.method == 'POST':
         try:
-            status_code, h1, title, description = checker.check_url(url[1])
+            status_code, h1, title, description = checker.check_url(
+                url['name']
+            )
             database.add_check(id, status_code, h1, title, description)
             flash('Страница успешно проверена', 'success')
         except checker.CheckError:
