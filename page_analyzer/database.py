@@ -54,3 +54,21 @@ def get_all_urls():
                 """
             )
             return cur.fetchall()
+
+
+def add_check(url_id, status_code, h1, title, description):
+    try:
+        with get_db_connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    """
+                        INSERT INTO checks (url_id, status_code, h1, title
+                        description, created_at)
+                        VALUES (%s, %s, %s, %s, %s, %s)
+                    """,
+                    (url_id, status_code, h1,
+                     title, description, datetime.now())
+                )
+                conn.commit()
+    except psycopg2.Error:
+        raise
