@@ -32,7 +32,7 @@
     </header>
     <main class="flex-grow-1">
       <div class="container-lg mt-3">
-        <h1>Сайт: https://drive.google.com</h1>
+        <h1>Сайт: {{ url.name }}</h1>
 
         <div class="table-responsive">
           <table
@@ -42,22 +42,22 @@
             <tbody>
               <tr>
                 <td>ID</td>
-                <td>1</td>
+                <td>{{ url.id }}</td>
               </tr>
               <tr>
                 <td>Имя</td>
-                <td>https://drive.google.com</td>
+                <td>{{ url.name }}</td>
               </tr>
               <tr>
                 <td>Дата создания</td>
-                <td>2025-07-22</td>
+                <td>{{ url.created_at.strftime('%Y-%m-%d') }}</td>
               </tr>
             </tbody>
           </table>
         </div>
 
         <h2 class="mt-5 mb-3">Проверки</h2>
-        <form method="post" action="/urls/1/checks">
+        <form method="post" action="{{ url_for('check_url', id=url.id) }}">
           <input
             type="submit"
             class="btn btn-primary"
@@ -81,17 +81,16 @@
               </tr>
             </thead>
             <tbody>
+              {% for check in url.checks %}
               <tr>
-                <td>1</td>
-                <td>200</td>
-                <td>Sign in</td>
-                <td>Google Drive: Sign-in</td>
-                <td>
-                  Access Google Drive with a Google account (for personal use)
-                  or Google Workspace account (for business use).
-                </td>
-                <td>2025-07-22</td>
+                <td>{{ check.id }}</td>
+                <td>{{ check.status_code }}</td>
+                <td>{{ check.h1 }}</td>
+                <td>{{ check.title }}</td>
+                <td>{{ check.description }}</td>
+                <td>{{ check.created_at.strftime('%Y-%m-%d') }}</td>
               </tr>
+              {% endfor %}
             </tbody>
           </table>
         </div>
@@ -100,7 +99,9 @@
     <footer class="border-top py-3 mt-5 flex-shrink-0">
       <div class="container-lg">
         <div class="text-center">
-          <a href="https://ru.hexlet.io/" target="_blank">Hexlet</a>
+          <a href="https://github.com/IvanFoksha/IvanFoskha" target="_blank"
+            >GitHub Ivan Foksha</a
+          >
         </div>
       </div>
     </footer>
