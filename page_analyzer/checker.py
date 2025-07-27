@@ -28,9 +28,7 @@ def check_url(url):
         title = title_match.group(1).strip() if title_match else ''
 
         description_match = re.search(
-            r'''
-            <meta[^>]*name=[\"']description[\"'][^>]
-            *content=[\"'](.*?)[\"']''',
+            r'<meta\s+name=["\']description["\']\s+content=["\'](.*?)["\']',
             html_content,
             re.IGNORECASE
         )
