@@ -36,14 +36,28 @@ def get_url_by_id(url_id):
         with conn.cursor() as cur:
             cur.execute(
                 """
-                    SELECT id, name, created_at FROM urls
-                    WHERE id = %s
+                    SELECT
+                        u.id,
+                        u.name,
+                        u.created_at,
+                        (SELECT c.created_at
+                         FROM checks c
+                         WHERE c.url_id = u.id
+                         ORDER BY c.created_at DESC
+                         LIMIT 1) AS last_checked,
+                        (SELECT c.status_code
+                         FROM checks c
+                         WHERE c.url_id = u.id
+                         ORDER BY c.created_at DESC
+                         LIMIT 1) AS status_code
+                    FROM urls u
+                    WHERE u.id = %s
                 """,
                 (url_id,)
             )
             result = cur.fetchone()
             if result:
-                url_id, name, created_at = result
+                url_id, name, created_at, last_checked, status_code = result
                 cur.execute(
                     """
                         SELECT
@@ -64,6 +78,8 @@ def get_url_by_id(url_id):
                     'id': url_id,
                     'name': name,
                     'created_at': created_at,
+                    'last_checked': last_checked,
+                    'status_code': status_code,
                     'checks': checks
                 }
             return None
@@ -74,11 +90,30 @@ def get_all_urls():
         with conn.cursor() as cur:
             cur.execute(
                 """
-                    SELECT id, name, created_at FROM urls
-                    ORDER BY created_at DESC
+                    SELECT
+                        u.id,
+                        u.name,
+                        u.created_at,
+                        (SELECT c.created_at
+                         FROM checks c
+                         WHERE c.url_id = u.id
+                         ORDER BY c.created_at DESC
+                         LIMIT 1) AS last_checked,
+                         FROM checks c
+                         WHERE c.url_id = u.id
+                         ORDER BY c.created_at DESC
+                         LIMIT 1) AS status_code
+                    FROM urls u
+                    ORDER BY u.created_at DESC
                 """
             )
-            return cur.fetchall()
+            return [{
+                'id': row[0],
+                'name': row[1],
+                'created_at': row[2],
+                'last_checked': row[3],
+                'status_code': row[4]
+            } for row in cur.fetchall()]
 
 
 def add_check(url_id, status_code, h1, title, description):
@@ -87,7 +122,7 @@ def add_check(url_id, status_code, h1, title, description):
             with conn.cursor() as cur:
                 cur.execute(
                     """
-                        INSERT INTO checks (url_id, status_code, h1, title
+                        INSERT INTO checks (url_id, status_code, h1, title,
                         description, created_at)
                         VALUES (%s, %s, %s, %s, %s, %s)
                     """,
