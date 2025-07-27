@@ -1,8 +1,0 @@
-[tool.ruff]
-select = ["I", "B", "E", "F"]
-ignore = ["I001"]
-fixable = ["I001", "B904"]
-line-length = 88
-
-[tool.ruff.isort]
-known-first-party = ["page_analyzer"]
