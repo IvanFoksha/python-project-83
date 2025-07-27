@@ -4,7 +4,8 @@ from datetime import datetime
 
 
 def get_db_connection():
-    return psycopg2.connect(os.getenv('DATABASE_URL'))
+    DATABASE_URL = os.getenv('DATABASE_URL')
+    return psycopg2.connect(DATABASE_URL)
 
 
 def add_url(url):
@@ -95,14 +96,15 @@ def get_all_urls():
                         u.name,
                         u.created_at,
                         (SELECT c.created_at
-                         FROM checks c
-                         WHERE c.url_id = u.id
-                         ORDER BY c.created_at DESC
-                         LIMIT 1) AS last_checked,
-                         FROM checks c
-                         WHERE c.url_id = u.id
-                         ORDER BY c.created_at DESC
-                         LIMIT 1) AS status_code
+                        FROM checks c
+                        WHERE c.url_id = u.id
+                        ORDER BY c.created_at DESC
+                        LIMIT 1) AS last_checked,
+                        (SELECT c.status_code
+                        FROM checks c
+                        WHERE c.url_id = u.id
+                        ORDER BY c.created_at DESC
+                        LIMIT 1) AS status_code
                     FROM urls u
                     ORDER BY u.created_at DESC
                 """
