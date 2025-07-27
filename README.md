@@ -2,6 +2,8 @@
 
 [![Actions Status](https://github.com/IvanFoksha/python-project-83/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/IvanFoksha/python-project-83/actions)
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=IvanFoksha_python-project-83&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=IvanFoksha_python-project-83)
+
 # Анализатор страниц
 
 Простое веб-приложение на основе Flask для анализа страниц.
