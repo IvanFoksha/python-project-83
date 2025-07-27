@@ -1,6 +1,6 @@
 import os
-from flask import Flask, render_template, request, redirect, url_for, flash
 from dotenv import load_dotenv
+from flask import Flask, render_template, request, redirect, url_for, flash
 from page_analyzer import database, checker, validator
 
 load_dotenv()
