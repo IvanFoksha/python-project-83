@@ -52,19 +52,6 @@
                 <td>Дата создания</td>
                 <td>{{ url.created_at.strftime('%Y-%m-%d') }}</td>
               </tr>
-              <tr>
-                <td>Последняя проверка</td>
-                <td>
-                  {{ url.last_checked.strftime('%Y-%m-%d') if url.last_checked
-                  else '' }}
-                </td>
-              </tr>
-              <tr>
-                <td>Код ответа</td>
-                <td>
-                  {{ url.status_code if url.status_code is not none else '' }}
-                </td>
-              </tr>
             </tbody>
           </table>
         </div>
