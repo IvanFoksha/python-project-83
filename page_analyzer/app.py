@@ -47,6 +47,6 @@ def url_detail(id):
             database.add_check(id, status_code, h1, title, description)
             flash('Страница успешно проверена', 'success')
         except checker.CheckError:
-            flash('Ошибка проверки: не удалось подключиться к сайту', 'danger')
+            flash('Произошла ошибка при проверке', 'danger')
         return redirect(url_for('url_detail', id=id))
     return render_template('url_detail.html', url=url)
