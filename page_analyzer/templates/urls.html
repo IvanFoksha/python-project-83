@@ -57,18 +57,21 @@
             </thead>
             <tbody>
               {% for url in urls %}
-
               <tr>
-                <td>{{ url[0] }}</td>
+                <td>{{ url.id }}</td>
                 <td>
-                  <a href="{{ url_for('url_detail', id=url[0]) }}">
-                    {{ url[1] }}
+                  <a href="{{ url_for('url_detail', id=url.id) }}">
+                    {{ url.name }}
                   </a>
                 </td>
-                <td>{{ url[2].strftime('%Y-%m-%d') if url[2] else '' }}</td>
-                <td>{{ url[3] if url[3] is not none else '' }}</td>
+                <td>
+                  {{ url.last_checked.strftime('%Y-%m-%d') if url.last_checked
+                  else '' }}
+                </td>
+                <td>
+                  {{ url.status_code if url.status_code is not none else '' }}
+                </td>
               </tr>
-
               {% endfor %}
             </tbody>
           </table>
