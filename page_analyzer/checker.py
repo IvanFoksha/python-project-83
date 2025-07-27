@@ -37,5 +37,5 @@ def check_url(url):
         description = description_match.group(1) if description_match else ''
 
         return status_code, h1, title, description
-    except requests.RequestException:
-        raise CheckError
+    except requests.RequestException as err:
+        raise CheckError from err
