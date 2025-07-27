@@ -20,4 +20,4 @@ jobs:
       - name: Install dependencies
         run: uv sync
       - name: Run Ruff
-        run: uv run ruff check . --version 0.12.4 --ignore I001
+        run: uv run ruff check . --ignore I001
