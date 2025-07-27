@@ -24,8 +24,8 @@ def urls():
         parsed_url = validator.normalize_url(url_input)
         url_id, error = database.add_url(parsed_url)
         if error:
-            flash(error, 'danger')
-            return render_template('index.html'), 422
+            flash(error, 'warning')
+            return redirect(url_for('url_detail', id=url_id))
         flash('Страница успешно добавлена', 'success')
         return redirect(url_for('url_detail', id=url_id))
 

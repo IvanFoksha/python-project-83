@@ -17,7 +17,7 @@ def add_url(url):
             )
             existing = cur.fetchone()
             if existing:
-                return existing[0], None
+                return existing[0], 'Страница уже существует'
 
             cur.execute(
                 """
