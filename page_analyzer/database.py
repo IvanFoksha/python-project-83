@@ -42,12 +42,12 @@ def get_url_by_id(url_id):
                         u.name,
                         u.created_at,
                         (SELECT c.created_at
-                         FROM checks c
+                         FROM url_checks c
                          WHERE c.url_id = u.id
                          ORDER BY c.created_at DESC
                          LIMIT 1) AS last_checked,
                         (SELECT c.status_code
-                         FROM checks c
+                         FROM url_checks c
                          WHERE c.url_id = u.id
                          ORDER BY c.created_at DESC
                          LIMIT 1) AS status_code
@@ -63,7 +63,7 @@ def get_url_by_id(url_id):
                     """
                         SELECT
                             id, status_code, h1, title, description, created_at
-                        FROM checks WHERE url_id = %s
+                        FROM url_checks WHERE url_id = %s
                     """,
                     (url_id,)
                 )
@@ -96,12 +96,12 @@ def get_all_urls():
                         u.name,
                         u.created_at,
                         (SELECT c.created_at
-                        FROM checks c
+                        FROM url_checks c
                         WHERE c.url_id = u.id
                         ORDER BY c.created_at DESC
                         LIMIT 1) AS last_checked,
                         (SELECT c.status_code
-                        FROM checks c
+                        FROM url_checks c
                         WHERE c.url_id = u.id
                         ORDER BY c.created_at DESC
                         LIMIT 1) AS status_code
@@ -124,7 +124,7 @@ def add_check(url_id, status_code, h1, title, description):
             with conn.cursor() as cur:
                 cur.execute(
                     """
-                        INSERT INTO checks (url_id, status_code, h1, title,
+                        INSERT INTO url_checks (url_id, status_code, h1, title,
                         description, created_at)
                         VALUES (%s, %s, %s, %s, %s, %s)
                     """,
